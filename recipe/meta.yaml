@@ -6,7 +6,7 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/coppeliasim_zmqremoteapi_client-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/coppeliasim_zmqremoteapi_client-{{ version }}.tar.gz
   sha256: a97cfe1510e1a41cdabe829efb6e0e0aa58f0612938c839bc3780e0f9c794f7a
   patches:
     - fix-cbor2-req.patch
@@ -14,15 +14,15 @@ source:
 build:
   noarch: python
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  number: 0
+  number: 1
 
 requirements:
   host:
-    - python >=3.8
+    - python {{ python_min }}
     - hatchling
     - pip
   run:
-    - python >=3.8
+    - python >={{ python_min }}
     - pyzmq
     - cbor2
 
@@ -34,6 +34,7 @@ test:
     - python -c "from coppeliasim_zmqremoteapi_client import RemoteAPIClient; client = RemoteAPIClient()"
   requires:
     - pip
+    - python {{ python_min }}
 
 about:
   summary: Client for the CoppeliaSim's zmqRemoteApi (protocol version 2)
